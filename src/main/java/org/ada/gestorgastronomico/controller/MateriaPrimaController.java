@@ -28,4 +28,15 @@ public class MateriaPrimaController {
 
         return new ResponseEntity(materiaPrimaService.retrieveAll(),HttpStatus.OK);
     }
+    @GetMapping("/{materiaPrimaId}")
+    public ResponseEntity retrieveById (@PathVariable int materiaPrimaId) {
+        try {
+            MateriaPrimaDTO materiaPrimaDTO = materiaPrimaService.retrieveById(materiaPrimaId);
+            return new ResponseEntity(materiaPrimaDTO, HttpStatus.OK);
+
+        } catch (Exception e) {
+
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
 }

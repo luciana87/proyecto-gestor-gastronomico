@@ -2,12 +2,11 @@ package org.ada.gestorgastronomico.service;
 
 import org.ada.gestorgastronomico.dto.MateriaPrimaDTO;
 import org.ada.gestorgastronomico.entity.MateriaPrima;
-import org.ada.gestorgastronomico.entity.Proveedor;
 import org.ada.gestorgastronomico.repository.MateriaPrimaRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +28,14 @@ public class MateriaPrimaService {
         List<MateriaPrima> materiaPrimaList = materiaPrimaRepository.findAll();
         return materiaPrimaList.stream().map(person -> mapToDTO(person)).collect(Collectors.toList());
 
+    }
+
+    public MateriaPrimaDTO retrieveById (int id) throws Exception{
+        Optional<MateriaPrima> materiaPrima = materiaPrimaRepository.findById(id);
+        if (materiaPrima.isEmpty()){
+            throw new Exception("Persona no encontrada");
+        }
+        return mapToDTO(materiaPrima.get());
     }
 
     private MateriaPrimaDTO mapToDTO(MateriaPrima materiaPrima) {

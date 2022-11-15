@@ -1,9 +1,8 @@
 package org.ada.gestorgastronomico.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "proveedor")
@@ -19,7 +18,20 @@ public class Proveedor {
     private String telefono;
     private String direccion;
 
+    @OneToMany(mappedBy = "proveedor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<PedidoAlProveedor> pedidos;
+
+
     public Proveedor() {
+    }
+
+    public Proveedor(String cuit, String nombre, String email, String telefono, String direccion, List<PedidoAlProveedor> pedidos) {
+        this.cuit = cuit;
+        this.nombre = nombre;
+        this.email = email;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.pedidos = pedidos;
     }
 
     public Proveedor(String cuit, String nombre, String email, String telefono, String direccion) {
@@ -48,5 +60,12 @@ public class Proveedor {
 
     public String getDireccion() {
         return direccion;
+    }
+
+    public List<PedidoAlProveedor> getPedidos() {
+        if (pedidos == null){
+            pedidos = new ArrayList<>();
+        }
+        return pedidos;
     }
 }
