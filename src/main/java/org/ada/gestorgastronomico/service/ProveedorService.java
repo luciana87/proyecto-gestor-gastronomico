@@ -39,7 +39,7 @@ public class ProveedorService {
     private ProveedorDTO mapToDTO(Proveedor proveedor) {
         ProveedorDTO proveedorDTO = new ProveedorDTO(proveedor.getCuit(),
                 proveedor.getNombre(), proveedor.getEmail(), proveedor.getTelefono(),
-                proveedor.getDireccion(), null); //TODO: campo como nulo, modificarlo
+                proveedor.getDireccion(), pedidoAlProveedorService.mapToDTOS(proveedor.getPedidos())); //TODO: campo como nulo, modificarlo
 
         return proveedorDTO;
     }

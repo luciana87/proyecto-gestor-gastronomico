@@ -34,6 +34,10 @@ public class PedidoAlProveedor {
         this.proveedor = proveedor;
     }
 
+    public Integer getNumero() {
+        return numero;
+    }
+
     public LocalDate getFecha() {
         return fecha;
     }

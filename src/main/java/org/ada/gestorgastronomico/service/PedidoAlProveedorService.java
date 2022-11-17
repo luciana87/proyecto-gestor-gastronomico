@@ -37,4 +37,16 @@ public class PedidoAlProveedorService {
     }
 
 
+    public List<PedidoAlProveedorDTO> mapToDTOS(List<PedidoAlProveedor> pedidos) {
+        return pedidos.stream().map(pedidoAlProveedor -> mapToDTO(pedidoAlProveedor)).collect(Collectors.toList());
+    }
+
+    private PedidoAlProveedorDTO mapToDTO(PedidoAlProveedor pedidoAlProveedor) {
+        PedidoAlProveedorDTO pedidoAlProveedorDTO = new PedidoAlProveedorDTO(pedidoAlProveedor.getFecha().toString(),
+                pedidoAlProveedor.getMontoTotal(), pedidoAlProveedor.getEstado());
+
+        pedidoAlProveedorDTO.setNumero(pedidoAlProveedor.getNumero());
+
+        return pedidoAlProveedorDTO;
+    }
 }
