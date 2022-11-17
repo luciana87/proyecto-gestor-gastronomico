@@ -27,6 +27,12 @@ public class PedidoAlProveedor {
     public PedidoAlProveedor() {
     }
 
+    public PedidoAlProveedor(LocalDate fecha, Double montoTotal, String estado) {
+        this.fecha = fecha;
+        this.montoTotal = montoTotal;
+        this.estado = estado;
+    }
+
     public PedidoAlProveedor(LocalDate fecha, Double montoTotal, String estado, Proveedor proveedor) {
         this.fecha = fecha;
         this.montoTotal = montoTotal;
@@ -52,5 +58,9 @@ public class PedidoAlProveedor {
 
     public Proveedor getProveedor() {
         return proveedor;
+    }
+
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
     }
 }

@@ -2,6 +2,7 @@ package org.ada.gestorgastronomico.controller;
 
 import org.ada.gestorgastronomico.dto.PedidoAlProveedorDTO;
 import org.ada.gestorgastronomico.service.PedidoAlProveedorService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +21,13 @@ public class PedidoAlProveedorController {
 
     @PostMapping
     public ResponseEntity create(@RequestBody PedidoAlProveedorDTO pedidoAlProveedorDTO){
+        try {
+            PedidoAlProveedorDTO createdPedidoAlProveedorDTO = pedidoAlProveedorService.create(pedidoAlProveedorDTO);
+            return new ResponseEntity(createdPedidoAlProveedorDTO.getNumero(), HttpStatus.OK);
+        } catch (Exception e) {
 
-        pedidoAlProveedorService.create(pedidoAlProveedorDTO);
-        return new ResponseEntity()
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
     }
 }
