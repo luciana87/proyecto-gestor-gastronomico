@@ -21,11 +21,11 @@ public class Producto {
 
     @OneToMany(mappedBy = "producto", fetch = FetchType.EAGER)
     private List<DetalleTicket> detallesTicket;
-    public Producto() {
 
+    public Producto() {
     }
 
-    public Producto(Integer codigo, String nombre, double precio) {
+    public Producto(Integer codigo, String nombre, double precio) { //TODO: modificar el código, no va porque se autoincrementa
         this.codigo = codigo;
         this.nombre = nombre;
         this.precio = precio;
@@ -41,5 +41,9 @@ public class Producto {
 
     public double getPrecio() {
         return precio;
+    }
+
+    public List<DetalleTicket> getDetallesTicket() {
+        return detallesTicket;
     }
 }

@@ -1,7 +1,7 @@
 package org.ada.gestorgastronomico.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 @Entity
 @Table(name = "ticket")
@@ -14,7 +14,7 @@ public class Ticket {
     private double montoTotal;
 
     @Column(nullable = false)
-    private LocalDate fecha;
+    private LocalDateTime fecha;
 
     @OneToMany(mappedBy = "ticket", fetch = FetchType.EAGER)
     private List<DetalleTicket> detallesTicket;
@@ -22,10 +22,9 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(int num, double montoTotal, LocalDate fecha, List<DetalleTicket> detallesTicket) {
+    public Ticket(int num, LocalDateTime fecha, List<DetalleTicket> detallesTicket) {
         this.num = num;
-        this.montoTotal = montoTotal;
-        this.fecha = fecha;
+        this.fecha = LocalDateTime.now();
         this.detallesTicket = detallesTicket;
     }
 
@@ -37,7 +36,7 @@ public class Ticket {
         return montoTotal;
     }
 
-    public LocalDate getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 

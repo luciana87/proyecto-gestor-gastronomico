@@ -8,8 +8,10 @@ public class PedidoAlProveedorDTO {
 
     private Integer numero;
     private String fecha;
+
     @JsonAlias("monto_total")
     private Double montoTotal;
+
     private String estado;
 
     private List<ItemPedidoDTO> items;

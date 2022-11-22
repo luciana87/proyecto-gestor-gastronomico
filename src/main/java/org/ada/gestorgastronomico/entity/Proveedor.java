@@ -10,11 +10,14 @@ public class Proveedor {
 
     @Id
     private String cuit;
+
     @Column (nullable = false)
     private String nombre;
+
     private String email;
     private String telefono;
     private String direccion;
+
     @OneToMany(mappedBy = "proveedor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<PedidoAlProveedor> pedidos;
 

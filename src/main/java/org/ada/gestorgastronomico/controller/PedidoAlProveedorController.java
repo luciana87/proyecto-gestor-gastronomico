@@ -25,7 +25,7 @@ public class PedidoAlProveedorController {
             pedidoAlProveedorService.create2(proveedorId, pedidosAlProveedorDTO);
             return new ResponseEntity(HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 

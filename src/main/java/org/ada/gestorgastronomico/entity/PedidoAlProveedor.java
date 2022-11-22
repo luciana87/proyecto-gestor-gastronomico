@@ -37,6 +37,7 @@ public class PedidoAlProveedor {
         this.estado = estado;
         this.proveedor = proveedor;
         this.items = new ArrayList<>();
+        montoTotal = 0.0;
     }
 
     public LocalDateTime getFecha() {

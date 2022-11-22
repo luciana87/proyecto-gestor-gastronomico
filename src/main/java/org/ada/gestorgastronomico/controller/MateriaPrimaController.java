@@ -20,7 +20,7 @@ public class MateriaPrimaController {
     public ResponseEntity create(@RequestBody MateriaPrimaDTO materiaPrimaDTO){
         MateriaPrimaDTO createdMateriaPrimaDTO = materiaPrimaService.create(materiaPrimaDTO);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(createdMateriaPrimaDTO.getId(), HttpStatus.CREATED);
     }
 
     @GetMapping

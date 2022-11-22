@@ -23,8 +23,8 @@ public class ItemPedidoService {
         this.materiaPrimaService = materiaPrimaService;
     }
 
-    public void create(List<ItemPedidoDTO> itemsDTO, PedidoAlProveedor pedidoAlProveedor) throws Exception{
-        //Obtener el item con el id , si no existe retorno msj.
+    public List<ItemPedido> create(List<ItemPedidoDTO> itemsDTO, PedidoAlProveedor pedidoAlProveedor) throws Exception{
+
         //Mapeo la lista de ítemsDTO a una lista de ítems entity
         List<ItemPedido> items = new ArrayList<>(); //Creo la lista de entidades
         for (ItemPedidoDTO itemPedidoDTO: itemsDTO) {
@@ -36,13 +36,12 @@ public class ItemPedidoService {
             materiaPrimaService.incrementarStock(itemPedidoDTO.getCantidad(), materiaPrima.get()); // Modifico el stock de la materia prima
         }
         itemPedidoRepository.saveAll(items); //Guardo la lista de ítems
-
+        return items;
     }
 
     private ItemPedido mapToEntity(ItemPedidoDTO itemPedidoDTO, PedidoAlProveedor pedidoAlProveedor, MateriaPrima materiaPrima) {
 
-        ItemPedido itemPedido = new ItemPedido(itemPedidoDTO.getCantidad(),
-                itemPedidoDTO.getPrecio_unitario(), pedidoAlProveedor, materiaPrima);
+        ItemPedido itemPedido = new ItemPedido(itemPedidoDTO.getCantidad(), itemPedidoDTO.getPrecioUnitario(), pedidoAlProveedor, materiaPrima);
 
         return itemPedido;
     }

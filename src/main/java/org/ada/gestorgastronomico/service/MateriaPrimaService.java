@@ -21,6 +21,8 @@ public class MateriaPrimaService {
         MateriaPrima materiaPrima = mapToEntity(materiaPrimaDTO);
         materiaPrima = materiaPrimaRepository.save(materiaPrima);
 
+        materiaPrimaDTO.setId(materiaPrima.getId()); //TODO: chequear
+
         return materiaPrimaDTO;
     }
 
@@ -37,22 +39,21 @@ public class MateriaPrimaService {
         }
         return mapToDTO(materiaPrima.get());
     }
-    public Optional<MateriaPrima> findById(MateriaPrima materiaPrima) {
-        return materiaPrimaRepository.findById(materiaPrima.getId());
+    public Optional<MateriaPrima> findById(Integer materiaPrimaId) {
+        return materiaPrimaRepository.findById(materiaPrimaId);
     }
 
     private MateriaPrimaDTO mapToDTO(MateriaPrima materiaPrima) {
-        MateriaPrimaDTO materiaPrimaDTO = new MateriaPrimaDTO(materiaPrima.getId(),
-                materiaPrima.getNombre(), materiaPrima.getStock(), materiaPrima.getPrecio());
+        MateriaPrimaDTO materiaPrimaDTO = new MateriaPrimaDTO(materiaPrima.getNombre(),
+                materiaPrima.getStock(), materiaPrima.getPrecio());
 
         return materiaPrimaDTO;
     }
 
     private MateriaPrima mapToEntity(MateriaPrimaDTO materiaPrimaDTO) {
 
-        MateriaPrima materiaPrima = new MateriaPrima(materiaPrimaDTO.getId(),
-                materiaPrimaDTO.getNombre(), materiaPrimaDTO.getSotck(),
-                materiaPrimaDTO.getPrecio());
+        MateriaPrima materiaPrima = new MateriaPrima(materiaPrimaDTO.getNombre(),
+                materiaPrimaDTO.getSotck(), materiaPrimaDTO.getPrecio());
 
         return  materiaPrima;
     }

@@ -8,11 +8,14 @@ public class MateriaPrimaDTO {
     private int sotck;
     private double precio;
 
-    public MateriaPrimaDTO(int id, String nombre, int stock, double precio) {
-        this.id = id;
+    public MateriaPrimaDTO( String nombre, int stock, double precio) {
         this.nombre = nombre;
         this.sotck = stock;
         this.precio = precio;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {

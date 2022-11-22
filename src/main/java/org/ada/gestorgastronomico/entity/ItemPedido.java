@@ -12,8 +12,8 @@ public class ItemPedido {
     @Column(nullable = false)
     private Integer cantidad;
 
-    @Column(name = "monto_total", nullable = false)
-    private double precio_unitario;
+    @Column(name = "precio_unitario", nullable = false)
+    private double precioUnitario;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "numero_pedido", nullable = false)
@@ -26,9 +26,9 @@ public class ItemPedido {
     public ItemPedido() {
     }
 
-    public ItemPedido(Integer cantidad, double precio_unitario, PedidoAlProveedor pedidoAlProveedor, MateriaPrima materiaPrima) {
+    public ItemPedido(Integer cantidad, double precioUnitario, PedidoAlProveedor pedidoAlProveedor, MateriaPrima materiaPrima) {
         this.cantidad = cantidad;
-        this.precio_unitario = precio_unitario;
+        this.precioUnitario = precioUnitario;
         this.pedidoAlProveedor = pedidoAlProveedor;
         this.materiaPrima = materiaPrima;
     }
@@ -44,8 +44,13 @@ public class ItemPedido {
     public int getId() {
         return id;
     }
-    public double getPrecio_unitario() {
-        return precio_unitario;
+
+    public void setPrecioUnitario(double precio_unitario) {
+        this.precioUnitario = precio_unitario;
+    }
+
+    public double getPrecioUnitario() {
+        return precioUnitario;
     }
 
     public PedidoAlProveedor getPedidoAlProveedor() {

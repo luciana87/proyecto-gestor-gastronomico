@@ -8,6 +8,7 @@ import org.ada.gestorgastronomico.entity.Proveedor;
 import org.ada.gestorgastronomico.repository.PedidoAlProveedorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,20 +46,27 @@ public class PedidoAlProveedorService {
             throw new Exception ("Proveedor no encontrado");
         }
 
+        List<PedidoAlProveedor> pedidos = new ArrayList<>();
         //Uso un foreach y no un stream porque necesito realizar más acciones por cada elemento de la lista de pedidos
         for (PedidoAlProveedorDTO pedidoAlProveedorDTO: pedidosAlProveedorDTO) {
             PedidoAlProveedor pedidoAlProveedor = mapToEntity(pedidoAlProveedorDTO, proveedor.get()); //Mapeo cada pedidoDTO a Entidad, y le envío el proveedor para agregarlo
             pedidoAlProveedorRepository.save(pedidoAlProveedor); //Guardo cada pedido de la lista de pedidos
-            itemPedidoService.create(pedidoAlProveedorDTO.getItems(),pedidoAlProveedor); //Creo la lista de ítems de cada pedido con la información del body (la lista de ítems, y elpedido guardado)
-            double montoCalculado = calcularMontoTotal (pedidoAlProveedor.getItems()); //Calculo el monto total
+            List<ItemPedido> items = itemPedidoService.create(pedidoAlProveedorDTO.getItems(), pedidoAlProveedor); //Creo la lista de ítems de cada pedido con la información del body (la lista de ítems, y el pedido guardado)
+            double montoCalculado = calcularMontoTotal (items); //Calculo el monto total
             pedidoAlProveedor.setMontoTotal(montoCalculado); //Lo setteo a la entidad o al DTO? El método debería retornar la lista de pedidos?
+            pedidos.add(pedidoAlProveedor);
+            pedidoAlProveedorRepository.save(pedidoAlProveedor);
         }
+
+        //pedidoAlProveedorRepository.saveAll(pedidos);
 
     }
 
     public List<PedidoAlProveedorDTO> retrieveByProveedor(String cuitProveedor) {  //Retorna todos los pedidos de un proveedor específico según el campo cuit_proveedor de la tabla Pedidos (FK)
 
-        List<PedidoAlProveedor> pedidosObtenidos = pedidoAlProveedorRepository.findByCuitProveedor(cuitProveedor);
+        Optional<Proveedor> proveedor = proveedorService.findById(cuitProveedor);
+        List<PedidoAlProveedor> pedidosObtenidos = pedidoAlProveedorRepository.findByProveedor(proveedor.get());
+
         return mapToDTOS(pedidosObtenidos);
     }
 
@@ -80,17 +88,17 @@ public class PedidoAlProveedorService {
 
     private PedidoAlProveedor mapToEntity(PedidoAlProveedorDTO pedidoAlProveedorDTO, Proveedor proveedor) {
         PedidoAlProveedor pedidoAlProveedor = new PedidoAlProveedor(pedidoAlProveedorDTO.getEstado(), proveedor); //La lista de ítems está inicializada en el constructor, y el montoTotal se inicializa por defecto
-
         return pedidoAlProveedor;
     }
 
-    private double calcularMontoTotal(List<ItemPedido> items) { // Este método va en este PedidoAlProveedorService o en la entidad PedidoAlProveedor?
+    private double calcularMontoTotal(List<ItemPedido> items) {
         double montoCalculado = 0;
         for (ItemPedido item : items) {
-            montoCalculado+= item.getPrecio_unitario();
+            montoCalculado+= item.getPrecioUnitario() * item.getCantidad();
         }
 
         return  montoCalculado;
     }
+
 
 }

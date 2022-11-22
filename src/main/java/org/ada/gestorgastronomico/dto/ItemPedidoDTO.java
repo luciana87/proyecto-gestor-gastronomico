@@ -12,18 +12,18 @@ public class ItemPedidoDTO {
     private int cantidad;
 
     @JsonAlias("precio_unitario")
-    private double precio_unitario;
+    private double precioUnitario;
 
     @JsonAlias("pedido_al_proveedor")
-    private PedidoAlProveedor pedidoAlProveedor;
+    private String pedidoAlProveedor;
 
     @JsonAlias("materia_prima")
-    private MateriaPrima materiaPrima;
+    private Integer materiaPrima;
 
 
-    public ItemPedidoDTO(int cantidad, double precio_unitario, PedidoAlProveedor pedidoAlProveedor, MateriaPrima materiaPrima) {
+    public ItemPedidoDTO(int cantidad, double precioUnitario, String pedidoAlProveedor, Integer materiaPrima) {
         this.cantidad = cantidad;
-        this.precio_unitario = precio_unitario;
+        this.precioUnitario = precioUnitario;
         this.pedidoAlProveedor = pedidoAlProveedor;
         this.materiaPrima = materiaPrima;
     }
@@ -35,15 +35,19 @@ public class ItemPedidoDTO {
         return cantidad;
     }
 
-    public double getPrecio_unitario() {
-        return precio_unitario;
+    public void setPrecioUnitario(double precioUnitario) {
+        this.precioUnitario = precioUnitario;
     }
 
-    public PedidoAlProveedor getPedidoAlProveedor() {
+    public double getPrecioUnitario() {
+        return precioUnitario;
+    }
+
+    public String getPedidoAlProveedor() {
         return pedidoAlProveedor;
     }
 
-    public MateriaPrima getMateriaPrima() {
+    public Integer getMateriaPrima() {
         return materiaPrima;
     }
 }

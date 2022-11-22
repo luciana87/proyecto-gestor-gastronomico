@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 
 public class TicketDTO {
 
-    private int num;
+    private Integer num;
 
     @JsonAlias("monto_total")
     private double montoTotal;
@@ -16,7 +16,7 @@ public class TicketDTO {
         this.fecha = fecha;
     }
 
-    public int getNum() {
+    public Integer getNum() {
         return num;
     }
 

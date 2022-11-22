@@ -22,8 +22,7 @@ public class MateriaPrima {
     public MateriaPrima() {
     }
 
-    public MateriaPrima(Integer id, String nombre, Integer stock, double precio) {
-        this.id = id;
+    public MateriaPrima( String nombre, Integer stock, double precio) {
         this.nombre = nombre;
         this.stock = stock;
         this.precio = precio;
