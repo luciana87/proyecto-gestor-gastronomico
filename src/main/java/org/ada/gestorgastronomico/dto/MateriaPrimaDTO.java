@@ -1,6 +1,5 @@
 package org.ada.gestorgastronomico.dto;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 
 public class MateriaPrimaDTO {
 

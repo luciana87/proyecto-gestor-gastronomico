@@ -37,11 +37,16 @@ public class MateriaPrima {
         return nombre;
     }
 
+
     public Integer getStock() {
         return stock;
     }
 
     public double getPrecio() {
         return precio;
+    }
+
+    public void incrementarStock(int cantidad) {
+        stock+= cantidad;
     }
 }

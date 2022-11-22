@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/materias_primas")
+@RequestMapping(value = "/materias-primas")
 public class MateriaPrimaController {
 
     private final MateriaPrimaService materiaPrimaService;

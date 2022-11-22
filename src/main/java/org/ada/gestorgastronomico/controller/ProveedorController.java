@@ -20,13 +20,30 @@ public class ProveedorController {
 
     @PostMapping
     public ResponseEntity create (@RequestBody ProveedorDTO proveedorDTO){
-        ProveedorDTO createdProveedorDTO = proveedorService.create(proveedorDTO);
-
-        return new ResponseEntity(proveedorDTO.getCuit(), HttpStatus.CREATED);
+        try {
+            ProveedorDTO createdProveedorDTO = proveedorService.create(proveedorDTO);
+            return new ResponseEntity(proveedorDTO.getCuit(), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.CONFLICT);
+        }
     }
+
+
     @GetMapping
     public ResponseEntity retrieve(){
-
         return new ResponseEntity(proveedorService.retrieveAll(),HttpStatus.OK);
     }
+
+
+    @GetMapping("/{proveedorId}")
+    public ResponseEntity retrieveById (@PathVariable String proveedorId) {
+        try {
+            ProveedorDTO proveedorDTO = proveedorService.retrieveById(proveedorId);
+            return new ResponseEntity(proveedorDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
 }

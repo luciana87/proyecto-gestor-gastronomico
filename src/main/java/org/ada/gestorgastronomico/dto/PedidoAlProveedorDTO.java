@@ -2,15 +2,17 @@ package org.ada.gestorgastronomico.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 
+import java.util.List;
+
 public class PedidoAlProveedorDTO {
 
     private Integer numero;
     private String fecha;
-
     @JsonAlias("monto_total")
     private Double montoTotal;
-
     private String estado;
+
+    private List<ItemPedidoDTO> items;
 
     public PedidoAlProveedorDTO(String fecha, Double montoTotal, String estado) {
         this.fecha = fecha;
@@ -36,5 +38,9 @@ public class PedidoAlProveedorDTO {
 
     public String getEstado() {
         return estado;
+    }
+
+    public List<ItemPedidoDTO> getItems() {
+        return items;
     }
 }

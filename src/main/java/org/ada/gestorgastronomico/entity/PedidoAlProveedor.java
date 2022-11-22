@@ -1,7 +1,9 @@
 package org.ada.gestorgastronomico.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "pedido_al_proveedor")
@@ -12,7 +14,7 @@ public class PedidoAlProveedor {
     private Integer numero;
 
     @Column(nullable = false)
-    private LocalDate fecha;
+    private LocalDateTime fecha;
 
     @Column(name = "monto_total", nullable = false)
     private Double montoTotal;
@@ -24,18 +26,25 @@ public class PedidoAlProveedor {
     @JoinColumn(name = "cuit_proveedor", nullable = false)
     private Proveedor proveedor;
 
+    @OneToMany(mappedBy = "pedidoAlProveedor", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private List<ItemPedido> items;
+
     public PedidoAlProveedor() {
     }
 
-    public PedidoAlProveedor(LocalDate fecha, Double montoTotal, String estado, Proveedor proveedor) {
-        this.fecha = fecha;
-        this.montoTotal = montoTotal;
+    public PedidoAlProveedor(String estado, Proveedor proveedor) {
+        this.fecha = LocalDateTime.now();
         this.estado = estado;
         this.proveedor = proveedor;
+        this.items = new ArrayList<>();
     }
 
-    public LocalDate getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
+    }
+
+    public void setMontoTotal(Double montoTotal) {
+        this.montoTotal = montoTotal;
     }
 
     public Double getMontoTotal() {
@@ -48,5 +57,12 @@ public class PedidoAlProveedor {
 
     public Proveedor getProveedor() {
         return proveedor;
+    }
+
+    public Integer getNumero() {
+        return numero;
+    }
+    public List<ItemPedido> getItems() {
+        return items;
     }
 }

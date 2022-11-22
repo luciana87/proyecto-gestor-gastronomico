@@ -4,42 +4,50 @@ import org.ada.gestorgastronomico.dto.ProveedorDTO;
 import org.ada.gestorgastronomico.entity.Proveedor;
 import org.ada.gestorgastronomico.repository.ProveedorRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class ProveedorService {
     private final ProveedorRepository proveedorRepository;
-    private final PedidoAlProveedorService pedidoAlProveedorService;
-
-    public ProveedorService(ProveedorRepository proveedorRepository, PedidoAlProveedorService pedidoAlProveedorService) {
+    public ProveedorService(ProveedorRepository proveedorRepository) {
         this.proveedorRepository = proveedorRepository;
-        this.pedidoAlProveedorService = pedidoAlProveedorService;
     }
 
-    public ProveedorDTO create(ProveedorDTO proveedorDTO){
+    public ProveedorDTO create(ProveedorDTO proveedorDTO) throws Exception {
+
+        checkForExistingProveedor(proveedorDTO.getCuit());
+
         Proveedor proveedor = mapToEntity(proveedorDTO);
         proveedor = proveedorRepository.save(proveedor);
-
-        if (!CollectionUtils.isEmpty(proveedorDTO.getPedidosDTO())){
-            pedidoAlProveedorService.create(proveedorDTO.getPedidosDTO(), proveedor);
-        }
 
         return proveedorDTO;
     }
 
     public List<ProveedorDTO> retrieveAll(){
         List<Proveedor> proveedores = proveedorRepository.findAll();
-        return proveedores.stream().map(person -> mapToDTO(person)).collect(Collectors.toList());
+        return proveedores.stream().map(proveedor -> mapToDTO(proveedor)).collect(Collectors.toList());
+    }
+
+    public ProveedorDTO retrieveById(String proveedorId) throws Exception {
+        Optional<Proveedor> proveedor = proveedorRepository.findById(proveedorId);
+        if (proveedor.isEmpty()){
+            throw new Exception("Persona no encontrada");
+        }
+        return mapToDTO(proveedor.get());
+    }
+
+    public Optional<Proveedor> findById(String cuitProveedor) {
+        return proveedorRepository.findById(cuitProveedor);
     }
 
     private ProveedorDTO mapToDTO(Proveedor proveedor) {
         ProveedorDTO proveedorDTO = new ProveedorDTO(proveedor.getCuit(),
                 proveedor.getNombre(), proveedor.getEmail(), proveedor.getTelefono(),
-                proveedor.getDireccion(), null); //TODO: campo como nulo, modificarlo
+                proveedor.getDireccion());
 
         return proveedorDTO;
     }
@@ -51,5 +59,10 @@ public class ProveedorService {
                 proveedorDTO.getTelefono(), proveedorDTO.getDireccion());
 
         return proveedor;
+    }
+    private void checkForExistingProveedor(String cuitProveedor) throws Exception {
+        if (proveedorRepository.existsById(cuitProveedor)) {
+            throw new Exception("El proveedor que busca no existe"); //TODO: crear excepciones
+        }
     }
 }
