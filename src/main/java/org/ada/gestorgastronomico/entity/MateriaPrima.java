@@ -41,6 +41,10 @@ public class MateriaPrima {
         return stock;
     }
 
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
     public double getPrecio() {
         return precio;
     }

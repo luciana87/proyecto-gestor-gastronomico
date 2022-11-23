@@ -16,6 +16,8 @@ public class PedidoAlProveedorDTO {
 
     private List<ItemPedidoDTO> items;
 
+
+
     public PedidoAlProveedorDTO(String fecha, Double montoTotal, String estado) {
         this.fecha = fecha;
         this.montoTotal = montoTotal;

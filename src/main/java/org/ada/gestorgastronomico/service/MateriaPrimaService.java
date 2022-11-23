@@ -46,6 +46,7 @@ public class MateriaPrimaService {
     private MateriaPrimaDTO mapToDTO(MateriaPrima materiaPrima) {
         MateriaPrimaDTO materiaPrimaDTO = new MateriaPrimaDTO(materiaPrima.getNombre(),
                 materiaPrima.getStock(), materiaPrima.getPrecio());
+        materiaPrimaDTO.setId(materiaPrima.getId());
 
         return materiaPrimaDTO;
     }
@@ -61,6 +62,11 @@ public class MateriaPrimaService {
 
     public void incrementarStock(int cantidad, MateriaPrima materiaPrima) {
         materiaPrima.incrementarStock(cantidad);
+        materiaPrimaRepository.save(materiaPrima);
+    }
+
+    public void actualizarPrecio(double precioUnitario, MateriaPrima materiaPrima) {
+        materiaPrima.setPrecio(precioUnitario);
         materiaPrimaRepository.save(materiaPrima);
     }
 }

@@ -1,6 +1,5 @@
 package org.ada.gestorgastronomico.service;
 
-import org.ada.gestorgastronomico.dto.ItemPedidoDTO;
 import org.ada.gestorgastronomico.dto.PedidoAlProveedorDTO;
 import org.ada.gestorgastronomico.entity.ItemPedido;
 import org.ada.gestorgastronomico.entity.PedidoAlProveedor;
@@ -46,20 +45,20 @@ public class PedidoAlProveedorService {
             throw new Exception ("Proveedor no encontrado");
         }
 
-        List<PedidoAlProveedor> pedidos = new ArrayList<>();
+        List<PedidoAlProveedor> pedidos = new ArrayList<>(); //TODO: falta chequear que el pedido creado no sea el mismo que ya haya sido creado anteriormente
         //Uso un foreach y no un stream porque necesito realizar más acciones por cada elemento de la lista de pedidos
         for (PedidoAlProveedorDTO pedidoAlProveedorDTO: pedidosAlProveedorDTO) {
             PedidoAlProveedor pedidoAlProveedor = mapToEntity(pedidoAlProveedorDTO, proveedor.get()); //Mapeo cada pedidoDTO a Entidad, y le envío el proveedor para agregarlo
             pedidoAlProveedorRepository.save(pedidoAlProveedor); //Guardo cada pedido de la lista de pedidos
+
             List<ItemPedido> items = itemPedidoService.create(pedidoAlProveedorDTO.getItems(), pedidoAlProveedor); //Creo la lista de ítems de cada pedido con la información del body (la lista de ítems, y el pedido guardado)
             double montoCalculado = calcularMontoTotal (items); //Calculo el monto total
-            pedidoAlProveedor.setMontoTotal(montoCalculado); //Lo setteo a la entidad o al DTO? El método debería retornar la lista de pedidos?
-            pedidos.add(pedidoAlProveedor);
-            pedidoAlProveedorRepository.save(pedidoAlProveedor);
+            pedidoAlProveedor.setMontoTotal(montoCalculado); //Lo setteo a la entidad
+            pedidos.add(pedidoAlProveedor); //Lo agrego a la lista de pedidos
+            pedidoAlProveedorRepository.save(pedidoAlProveedor); //Lo guardo en la DB
         }
 
         //pedidoAlProveedorRepository.saveAll(pedidos);
-
     }
 
     public List<PedidoAlProveedorDTO> retrieveByProveedor(String cuitProveedor) {  //Retorna todos los pedidos de un proveedor específico según el campo cuit_proveedor de la tabla Pedidos (FK)

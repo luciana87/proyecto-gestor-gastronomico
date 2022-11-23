@@ -22,6 +22,9 @@ public class Producto {
     @OneToMany(mappedBy = "producto", fetch = FetchType.EAGER)
     private List<DetalleTicket> detallesTicket;
 
+    @OneToMany(mappedBy = "producto")
+    private List<Ingrediente> ingredientes;
+
     public Producto() {
     }
 

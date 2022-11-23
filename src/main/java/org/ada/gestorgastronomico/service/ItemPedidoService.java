@@ -28,9 +28,11 @@ public class ItemPedidoService {
         //Mapeo la lista de ítemsDTO a una lista de ítems entity
         List<ItemPedido> items = new ArrayList<>(); //Creo la lista de entidades
         for (ItemPedidoDTO itemPedidoDTO: itemsDTO) {
-            Optional<MateriaPrima> materiaPrima = materiaPrimaService.findById(itemPedidoDTO.getMateriaPrima()); // Obtengo la materia prima
+            Optional<MateriaPrima> materiaPrima = materiaPrimaService.findById(itemPedidoDTO.getMateriaPrima()); // Obtengo la materia prima con el id de la materia prima
             if (materiaPrima.isEmpty()){ // Verifico si encontró esa materia prima o no
                 throw new Exception("Materia prima no encontrada"); //Si no la encontró, lanzo una excepción
+            } else {
+                materiaPrimaService.actualizarPrecio(itemPedidoDTO.getPrecioUnitario(), materiaPrima.get());  //Setteeo el valor de la materia prima según el precio del último pedido
             }
             items.add(mapToEntity(itemPedidoDTO, pedidoAlProveedor, materiaPrima.get())); // Mapeo a entidad y si todo está OK, agrego el ítem a la lista de ítems del pedido
             materiaPrimaService.incrementarStock(itemPedidoDTO.getCantidad(), materiaPrima.get()); // Modifico el stock de la materia prima
